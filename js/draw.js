@@ -706,9 +706,16 @@ function DRAW_CLASS(){
       }
 
 	this.zoom = function(recalc, scroll){
-	
+
+		if (ZOOM == undefined) {
+			ZOOM = 100;
+		}
+
+	var test=100;
+	var global=0;
+	var third = 0;
 	//recalc represents the bar to move L-> R
-	if(recalc != undefined){
+	//if(recalc != undefined){
 			//zoom-in or zoom-out
 		var zoomval;
 	Leap.loop({enableGestures: true}, function(frame) {
@@ -723,42 +730,34 @@ function DRAW_CLASS(){
 		}
 
 		if (gesture0== "circle") {
-//			console.log('center' + gestures[0.center);
 			var pos = leapToScene( gestures[0].center, frame );
-			console.log('pos is ' + pos);
-			console.log ("progress: " + gestures[0].progress);
-			//ZOOM = gestures[0].progress*100;	
-			//console.log ("number: " + gestures[0].number);
   		  		zoomval = gestures[0].progress*100;	
-
   		}
-  		  		//zoomval = gestures[0].progress*100;	
   		  		console.log ('i wanna se' + zoomval);
-  		  		ZOOM = zoomval;
-  		  		console.log ("ZOOM zoom" + ZOOM);
+  		  		test = zoomval;
   		}
   		if (gestures.length > 0 && gestures[0].type=="circle") {
   		zoomval = gestures[0].progress*100;	
-  		console.log ('state is ' + gestures[0].state);
+  //		console.log ('state is ' + gestures[0].state);
   		   var radius = gestures[0].radius;
-
       var clockwise = false;
 
       if( gestures[0].normal[2]  <= 0 ){
-      	console.log ("its rtue");
+  //    	console.log ("its rtue");
       	ZOOM = zoomval;
         clockwise = true;
+  		// console.log ('tj aj test' + test);
 
       }
-
-      else {
-      	console.log ('is untrue');
-      }
+      global = test;
 }
- 	 });
-  		console.log ('tracking ZOOM' + ZOOM);
+//      console.log ('dat roll' + global);
+	third = global;
+      //console.log ('lemme seet' + third);
 
-	console.log ('testing to check value of zoomval' + zoomval);
+  	//	console.log ('tracking ZOOM' + ZOOM);
+
+	//console.log ('testing to check value of zoomval' + zoomval);
 		/**	if(recalc == 1 || recalc == -1){
 				ZOOM = zoomval;
 				console.log("recalc s1: " + recalc + " scroll1: " + scroll + " ZOOM1: " + ZOOM);
@@ -785,16 +784,26 @@ function DRAW_CLASS(){
 				
 
 				//ZOOM = parseInt(recalc);
-			console.log ("zoom val" + zoomval);
+//			console.log ("zoom val got here" + zoomval);
 			ZOOM = zoomval;
+			ZOOM = test;
+			//ZOOM=100;
 			CON.calc_preview_auto();
 			//}
+			ZOOM = test;
+					});
+//ZOOM = third;
+console.log ('after assigning ' + third);
+//}	
+		console.log ('Last test ' + ZOOM);
+		//ZOOM = 200;
 		console.log ("Lets see zoom level " + ZOOM);
 		document.getElementById("zoom_nr").innerHTML = ZOOM;
 		console.log ("Lets see zoom level2 " + ZOOM);
 		document.getElementById("zoom_range").value = ZOOM;
-		}
+//		}	
 		//change scale and repaint
+		console.log ('whislt scaling' + ZOOM);	
 		document.getElementById('canvas_back').style.width = round(WIDTH * ZOOM / 100)+"px";
 		document.getElementById('canvas_back').style.height = round(HEIGHT * ZOOM / 100)+"px";
 		for(var i in LAYERS){
@@ -806,6 +815,7 @@ function DRAW_CLASS(){
 	
 		//check main resize corners
 		if(ZOOM != 100){
+			console.log ('hmm in here?');
 			document.getElementById('resize-w').style.display = "none";
 			document.getElementById('resize-h').style.display = "none";
 			document.getElementById('resize-wh').style.display = "none";
@@ -815,13 +825,13 @@ function DRAW_CLASS(){
 			document.getElementById('resize-h').style.display = "block";
 			document.getElementById('resize-wh').style.display = "block";
 			}
-		
 		if(scroll != undefined)
 			CON.scroll_window();
 		DRAW.redraw_preview();
 		return true;
+		 	 };
+
 	//}
-		};
 	this.redraw_preview = function(){
 		canvas_preview.beginPath();
 		canvas_preview.rect(0, 0, DRAW.PREVIEW_SIZE.w, DRAW.PREVIEW_SIZE.h);
