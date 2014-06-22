@@ -682,128 +682,32 @@ function DRAW_CLASS(){
 		context.putImageData(img, 0, 0);
 		document.body.style.cursor = "auto";
 		//log('Iterations: brighten='+n_fix_white+", darken="+n_fix_black);
-		};	
-
-
-
-      function leapToScene( leapPos, tFrame ){
-        var iBox = tFrame.interactionBox;
-
-        var left = iBox.center[0] - iBox.size[0]/2;
-        var top = iBox.center[1] + iBox.size[1]/2;
-
-        var x = leapPos[0] - left;
-        var y = leapPos[1] - top;
-
-        x /= iBox.size[0];
-        y /= iBox.size[1];
-
-        x *= WIDTH;
-        y *= HEIGHT;
-
-        return [ x , -y ];
-
-      }
+		};
 
 	this.zoom = function(recalc, scroll){
-
-		if (ZOOM == undefined) {
-			ZOOM = 100;
-		}
-
-	var test=100;
-	var global=0;
-	var third = 0;
-	//recalc represents the bar to move L-> R
-	//if(recalc != undefined){
+		if(recalc != undefined){
 			//zoom-in or zoom-out
-		var zoomval;
-	Leap.loop({enableGestures: true}, function(frame) {
-	
-	if (frame != null) {
-		var gestures = frame.gestures;
-		console.log (gestures.length );
-
-		if (frame.gestures.length > 0) {
-			var gesture0 = gestures[0].type;
-			console.log (gesture0);
-		}
-
-		if (gesture0== "circle") {
-			var pos = leapToScene( gestures[0].center, frame );
-  		  		zoomval = gestures[0].progress*100;	
-  		}
-  		  		console.log ('i wanna se' + zoomval);
-  		  		test = zoomval;
-  		}
-  		if (gestures.length > 0 && gestures[0].type=="circle") {
-  		zoomval = gestures[0].progress*100;	
-  //		console.log ('state is ' + gestures[0].state);
-  		   var radius = gestures[0].radius;
-      var clockwise = false;
-
-      if( gestures[0].normal[2]  <= 0 ){
-  //    	console.log ("its rtue");
-      	ZOOM = zoomval;
-        clockwise = true;
-  		// console.log ('tj aj test' + test);
-
-      }
-      global = test;
-}
-//      console.log ('dat roll' + global);
-	third = global;
-      //console.log ('lemme seet' + third);
-
-  	//	console.log ('tracking ZOOM' + ZOOM);
-
-	//console.log ('testing to check value of zoomval' + zoomval);
-		/**	if(recalc == 1 || recalc == -1){
-				ZOOM = zoomval;
-				console.log("recalc s1: " + recalc + " scroll1: " + scroll + " ZOOM1: " + ZOOM);
+			if(recalc == 1 || recalc == -1){
 				var step = 100;
 				if(ZOOM <= 100 && recalc < 0)
-				console.log("recalc s2: " + recalc + " scroll2: " + scroll + " ZOOM2: " + ZOOM);
 					step = 10;
 				if(ZOOM <100 && recalc > 0)
 					step = 10;
-					console.log("recalc s3: " + recalc + " scroll3: " + scroll + " ZOOM3: " + ZOOM);
-
 				if(recalc*step + ZOOM > 0){
-					console.log("recalc s4: " + recalc + " scroll4: " + scroll + " ZOOM4: " + ZOOM);
 					ZOOM = ZOOM + recalc*step;
 					if(ZOOM > 100 && ZOOM < 200)
 						ZOOM = 100;
 					}
-								console.log ("ZOOM ZOOM value is " + ZOOM);
-
 				}
-				*/
 			//zoom using exact value
-			//else
-				
-
-				//ZOOM = parseInt(recalc);
-//			console.log ("zoom val got here" + zoomval);
-			ZOOM = zoomval;
-			ZOOM = test;
-			//ZOOM=100;
+			else
+				ZOOM = parseInt(recalc);
 			CON.calc_preview_auto();
-			//}
-			ZOOM = test;
-					});
-//ZOOM = third;
-console.log ('after assigning ' + third);
-//}	
-		console.log ('Last test ' + ZOOM);
-		//ZOOM = 200;
-		console.log ("Lets see zoom level " + ZOOM);
+			}
 		document.getElementById("zoom_nr").innerHTML = ZOOM;
-		console.log ("Lets see zoom level2 " + ZOOM);
 		document.getElementById("zoom_range").value = ZOOM;
-//		}	
+
 		//change scale and repaint
-		console.log ('whislt scaling' + ZOOM);	
 		document.getElementById('canvas_back').style.width = round(WIDTH * ZOOM / 100)+"px";
 		document.getElementById('canvas_back').style.height = round(HEIGHT * ZOOM / 100)+"px";
 		for(var i in LAYERS){
@@ -812,10 +716,9 @@ console.log ('after assigning ' + third);
 			}
 		document.getElementById('canvas_front').style.width = round(WIDTH * ZOOM / 100)+"px";
 		document.getElementById('canvas_front').style.height = round(HEIGHT * ZOOM / 100)+"px";
-	
+
 		//check main resize corners
 		if(ZOOM != 100){
-			console.log ('hmm in here?');
 			document.getElementById('resize-w').style.display = "none";
 			document.getElementById('resize-h').style.display = "none";
 			document.getElementById('resize-wh').style.display = "none";
@@ -825,13 +728,12 @@ console.log ('after assigning ' + third);
 			document.getElementById('resize-h').style.display = "block";
 			document.getElementById('resize-wh').style.display = "block";
 			}
+
 		if(scroll != undefined)
 			CON.scroll_window();
 		DRAW.redraw_preview();
 		return true;
-		 	 };
-
-	//}
+		};
 	this.redraw_preview = function(){
 		canvas_preview.beginPath();
 		canvas_preview.rect(0, 0, DRAW.PREVIEW_SIZE.w, DRAW.PREVIEW_SIZE.h);
