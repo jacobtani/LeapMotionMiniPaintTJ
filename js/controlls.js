@@ -538,10 +538,8 @@ function CONTROLLS_CLASS(){
 		var visible_h = page_h - 60;
 		
 		var scrollbar_w = page_w * visible_w / total_w;
-		console.log ('scrollbarwidth is ' + scrollbar_w);
 		var scrollbar_h = page_h * visible_h / total_h;
-		console.log ('scrollbarheight is ' + scrollbar_h);
-			
+				
 		xx = total_w * CON.ZOOM_X / (DRAW.PREVIEW_SIZE.w);
 		yy = total_h * CON.ZOOM_Y / (DRAW.PREVIEW_SIZE.h );
 		
@@ -566,7 +564,6 @@ function CONTROLLS_CLASS(){
 		var dim = HELPER.get_dimensions();
 		var page_w = dim[0];
 		var page_h = dim[1];
-		// console.log ("ZOOM in calcpreview" + ZOOM);
 		var total_w = (WIDTH * ZOOM/100)  + pad_left;
 		var total_h = (HEIGHT * ZOOM/100) + pad_top;
 		var visible_w = page_w - 60;
