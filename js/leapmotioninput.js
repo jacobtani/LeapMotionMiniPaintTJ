@@ -183,6 +183,10 @@ Leap.loop({enableGestures: true}, function(frame) {
 		}
 
 	}
+
+	if (zoomval <=0) {
+		zoomval = 100;
+	}
 	//calls the zoom function 	
 	DRAW.zoom(""+zoomval);
 });
